@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Tests for `training_logger` package."""
+"""Tests for `trainings` package."""
 
 
 import unittest
 from click.testing import CliRunner
 
-from training_logger import training_logger
-from training_logger import cli
+from trainings import trainings
+from trainings import cli
 
 
 class TestTraining_logger(unittest.TestCase):

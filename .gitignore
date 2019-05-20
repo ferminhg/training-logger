@@ -101,3 +101,4 @@ venv3/
 
 # mypy
 .mypy_cache/
+.vscode
