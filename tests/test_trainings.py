@@ -11,7 +11,7 @@ from trainings import trainings
 from trainings import cli
 
 
-class TestTraining_logger(unittest.TestCase):
+class TestTrainings(unittest.TestCase):
     """Tests for `training_logger` package."""
 
     def setUp(self):
@@ -22,6 +22,7 @@ class TestTraining_logger(unittest.TestCase):
 
     def test_000_something(self):
         """Test something."""
+        assert True is True
 
     def test_command_line_interface(self):
         """Test the CLI."""
