@@ -7,6 +7,7 @@ from unittest import mock
 
 from trainings.domain.training import Training
 from trainings.use_cases import training_use_cases as uc
+from trainings.use_cases import request_objects as ro
 
 
 @pytest.fixture
@@ -55,9 +56,14 @@ def test_traingin_list_without_parameters(domain_traingins):
     repo.list.return_value = domain_traingins
 
     training_list_use_case = uc.TrainingListUseCase(repo)
-    result = training_list_use_case.execute()
+   
+    request_object = ro.TrainingListRequestObject.from_dict({})
+
+    response_object = training_list_use_case.execute(request_object)
+
+    assert bool(response_object) is True
 
     repo.list.assert_called_with()
-    assert result == domain_traingins
+    assert response_object.value == domain_traingins
 
     
