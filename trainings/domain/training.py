@@ -23,4 +23,17 @@ class Training(object):
 
         return training
 
+    def to_dict(self):
+        return {
+            'code': self.code,
+            'planing_day': self.planing_day,
+            'description': self.description,
+            'motivation': self.motivation,
+            'tired': self.tired,
+            'strong': self.strong,
+        }
+
+    def __eq__(self, other):
+        return self.to_dict() == other.to_dict()
+
 # DomainModel.register(Training)
