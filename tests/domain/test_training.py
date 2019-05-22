@@ -8,12 +8,12 @@ class TestTrainins(unittest.TestCase):
 
     def test_training_model_init(self):
         code = uuid.uuid4()
-        
-        training = Training(code, 
-                            planing_day='', 
+
+        training = Training(code,
+                            planing_day='',
                             description='',
                             motivation=0,
-                            tired=0, 
+                            tired=0,
                             strong=0)
         assert training.code == code
         assert training.planing_day == ''
@@ -41,7 +41,7 @@ class TestTrainins(unittest.TestCase):
         assert training.motivation == 0
         assert training.tired == 0
         assert training.strong == 0
-    
+
     def test_training_model_to_dict(self):
         traingin_dict = {
             'code': uuid.uuid4(),
