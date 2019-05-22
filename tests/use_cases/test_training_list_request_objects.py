@@ -3,10 +3,26 @@ from trainings.use_cases import request_objects as ro
 def test_build_training_list_request_object_without_parameters():
     req = ro.TrainingListRequestObject()
 
+    assert req.filters is None
     assert bool(req) is True
 
 
 def test_build_file_list_request_object_from_emtpy_dict():
     req = ro.TrainingListRequestObject.from_dict({})
 
+    assert req.filters is None
     assert bool(req) is True
+
+def test_build_traingin_list_request_object_from_dict_with_filters():
+    req = ro.TrainingListRequestObject.from_dict({'filters': {'a': 1, 'b': 2}})
+
+    assert req.filters == {'a': 1, 'b': 2}
+    assert bool(req) is True
+
+def test_build_traingin_list_request_object_from_dict_with_invalidid_filters():
+    req = ro.TrainingListRequestObject.from_dict({'filters': 5})
+
+    assert req.has_errors()
+    assert req.errors[0]['parameter'] == 'filters'
+    assert bool(req) is False
+
