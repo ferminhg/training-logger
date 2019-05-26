@@ -33,7 +33,7 @@ def test_response_success_contains_value(response_value):
     assert response.value == response_value
 
 
-def test_response_failure_has_type_and_message(response_type, reponse_message):
+def test_response_failure_has_type_and_message(response_type, response_message):
     response = res.ResponseFailure(response_type, response_message)
 
     assert response.type == response_type
@@ -41,12 +41,12 @@ def test_response_failure_has_type_and_message(response_type, reponse_message):
 
 
 def test_response_failure_contains_value(response_type, response_message):
-    response = res.ResponseSuccess(response_type, response_message)
+    response = res.ResponseFailure(response_type, response_message)
 
     assert response.value == {'type': response_type, 'message': response_message}
 
 
-def test_response_failure_initialization_with_exception():
+def test_response_failure_initialization_with_exception(response_type):
     response = res.ResponseFailure(response_type, Exception('Just an error message'))
     
     assert bool(response) is False
@@ -62,4 +62,34 @@ def test_response_failure_from_invalid_request_objet():
 
 def test_response_failure_from_invalid_request_object_with_errors():
     request_object = req.InvalidRequestObject()
-    request_object.add_error('path')
+    request_object.add_error('path', 'Is mandatory')
+    request_object.add_error('path', "can't be blank")
+
+    response = res.ResponseFailure.build_from_invalid_request_object(request_object)
+
+    assert bool(response) is False
+    assert response.type == res.ResponseFailure.PARAMETERS_ERROR
+    assert response.message == "path: Is mandatory\npath: can't be blank"
+
+def test_response_failure_build_resource_error():
+    response = res.ResponseFailure.build_resource_error("test message")
+
+    assert bool(response) is False
+    assert response.type == res.ResponseFailure.RESOURCE_ERROR
+    assert response.message == "test message"
+
+
+def test_response_failure_build_parameters_error():
+    response = res.ResponseFailure.build_parameters_error("test message")
+
+    assert bool(response) is False
+    assert response.type == res.ResponseFailure.PARAMETERS_ERROR
+    assert response.message == "test message"
+
+
+def test_response_failure_build_system_error():
+    response = res.ResponseFailure.build_system_error("test message")
+
+    assert bool(response) is False
+    assert response.type == res.ResponseFailure.SYSTEM_ERROR
+    assert response.message == "test message"
