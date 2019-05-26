@@ -5,5 +5,13 @@ class TrainingListUseCase(object):
         self.repo = repo
 
     def execute(self, request_object):
-        trainings = self.repo.list()
-        return ro.ResponseSuccess(trainings)
+        if not request_object:
+            return ro.ResponseFailure.build_from_invalid_request_object(request_object)
+
+        try:
+            trainings = self.repo.list(filters=request_object.filters)
+            return ro.ResponseSuccess(trainings)
+        except Exception as exc:
+            return ro.ResponseFailure.build_system_error(
+                "{}: {}".format(exc.__class__.__name__, "{}".format(exc)))
+
